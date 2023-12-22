@@ -47,13 +47,13 @@ print(cdf.head(9))
 # visualize the features
 viz = cdf[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_COMB', 'CO2EMISSIONS']]
 viz.hist()
-plt.show()
 
 # Combined Fuel Consumption vs CO2 Emission
 plt.scatter(cdf.FUELCONSUMPTION_COMB, cdf.CO2EMISSIONS,  color='blue')
 plt.xlabel("FUELCONSUMPTION_COMB")
 plt.ylabel("Emission")
 plt.show()
+
 
 
 
