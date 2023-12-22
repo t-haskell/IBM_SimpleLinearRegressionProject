@@ -47,12 +47,27 @@ print(cdf.head(9))
 # visualize the features
 viz = cdf[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_COMB', 'CO2EMISSIONS']]
 viz.hist()
+plt.show()
 
 # Combined Fuel Consumption vs CO2 Emission
 plt.scatter(cdf.FUELCONSUMPTION_COMB, cdf.CO2EMISSIONS,  color='blue')
 plt.xlabel("FUELCONSUMPTION_COMB")
 plt.ylabel("Emission")
 plt.show()
+
+# Engine Size vs CO2 Emission
+plt.scatter(cdf.ENGINESIZE, cdf.CO2EMISSIONS,  color='blue')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+# Number of Cylinders vs CO2 Emission
+plt.scatter(cdf.CYLINDERS, cdf.CO2EMISSIONS, color="red")
+plt.xlabel("# of Cylinders")
+plt.ylabel("Emissions")
+plt.show()
+
+###########  Model Training and Testing ###########
 
 
 
