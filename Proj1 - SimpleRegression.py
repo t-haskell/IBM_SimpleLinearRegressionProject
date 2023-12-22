@@ -15,23 +15,9 @@ ssl._create_default_https_context = ssl._create_unverified_context
 def download(url, path, filename):
     urllib.request.urlretrieve(url, filename)
     print("Download Complete")
-
-    """ connection = http.client.HTTPSConnection(url)
-    # using GET method to find the file in cloud
-    connection.request("GET", path)
-    response = connection.getresponse()
-    if response.status == 200:
-        with open(filename, "wb") as f:
-            # saving file to local disk
-            f.write(response.read())
-            print(f"Download of '{filename}' is Successful")
-    else:
-        print(f"Download of '{filename}' is Failed")
-    connection.close() """
     
 # now calling the function to grab the data
 download(url, path, "FuelConsumptionCo2.csv")
-#path = "FuelConsumptionCo2.csv"
     
 # putting the data into a pandas dataframe
 df = pd.read_csv("FuelConsumptionCo2.csv")
@@ -67,8 +53,59 @@ plt.xlabel("# of Cylinders")
 plt.ylabel("Emissions")
 plt.show()
 
-###########  Model Training and Testing ###########
+###########  Model Training  ###########
 
+# splitting traininng and testing datasets
+msk = np.random.rand(len(df)) < 0.8
+train = cdf[msk]
+test = cdf[~msk]
+
+# visualizing the training data distribution
+plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+# visualizing the testing data distribution
+plt.scatter(test.ENGINESIZE, test.CO2EMISSIONS,  color='blue')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+#using sklearn to model the data
+from sklearn import linear_model
+
+regrML = linear_model.LinearRegression()
+train_x = np.asanarray(train[['ENGINESIZE']])
+train_y = np.asanarray(train[['CO2EMISSIONS']])
+regrML.fit(train_x, train_y)
+# printing the found optimal coefficients from line above
+print("Coefficients: ", regrML.coef_)
+print("Intercept: ", regrML.intercept_)
+
+# plotting line of regression
+plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
+plt.plot(train.ENGINESIZE, regrML.coef_[0][0]*train.ENGINESIZE + regrML.intercept_[0], '-r')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+
+####################  Model Testing/Evaluation  ##################
+
+# using Mean Squared Error (MSE)
+from sklearn.metrics import r2_score
+
+test_x = np.asanyarray(test[['ENGINESIZE']])
+test_y = np.asanyarray(test[['CO2EMISSIONS']])
+predictions = regrML.predict(test_x)    # uses line of best fit found earlier
+mae = np.mean(np.abs(predictions - test_y))
+mse = np.mean((predictions - test_y) ** 2)
+r2 = r2_score(test_y, predictions)
+
+print(f"Mean Squared Error ('Residual sum of squares'): {mse}")
+print(f"Mean Absolute Error: {mae}")
+print(f"R-squared: {r2}")
 
 
 
