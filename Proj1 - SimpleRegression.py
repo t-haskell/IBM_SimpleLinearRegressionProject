@@ -26,7 +26,7 @@ import urllib.request
 import ssl
 
 global IND_VAR
-IND_VAR = "ENGINESIZE"
+IND_VAR = "FUELCONSUMPTION_COMB"
 
 # workaround for SSL certificate verification
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -79,34 +79,46 @@ msk = np.random.rand(len(df)) < 0.8
 train = cdf[msk]
 test = cdf[~msk]
 
+# Adjusdting indendent vartiable to global value
+if IND_VAR == "ENGINESIZE":
+    testVariable = test.ENGINESIZE
+    trainVariable = train.ENGINESIZE
+if IND_VAR == "FUELCONSUMPTION_COMB":
+    testVariable = test.FUELCONSUMPTION_COMB
+    trainVariable = train.FUELCONSUMPTION_COMB
+
+
 # visualizing the training data distribution
-plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
+plt.scatter(trainVariable, train.CO2EMISSIONS,  color='blue')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
+plt.title("Training Data Distribution")
 plt.show()
 
 # visualizing the testing data distribution
-plt.scatter(test.ENGINESIZE, test.CO2EMISSIONS,  color='blue')
+plt.scatter(testVariable, test.CO2EMISSIONS,  color='blue')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
+plt.title("Testing Data Distribution")
 plt.show()
 
 #using sklearn to model the data
 from sklearn import linear_model
 
 regrML = linear_model.LinearRegression()
-train_x = np.asanarray(train[[IND_VAR]])
-train_y = np.asanarray(train[['CO2EMISSIONS']])
+train_x = np.asanyarray(train[[IND_VAR]])
+train_y = np.asanyarray(train[['CO2EMISSIONS']])
 regrML.fit(train_x, train_y)
 # printing the found optimal coefficients from line above
 print("Coefficients: ", regrML.coef_)
 print("Intercept: ", regrML.intercept_)
 
 # plotting line of regression
-plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
-plt.plot(train.ENGINESIZE, regrML.coef_[0][0]*train.ENGINESIZE + regrML.intercept_[0], '-r')
+plt.scatter(trainVariable, train.CO2EMISSIONS,  color='blue')
+plt.plot(trainVariable, regrML.coef_[0][0]*trainVariable + regrML.intercept_[0], '-r')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
+plt.title("Linear Regression Line of Best Fit")
 plt.show()
 
 
@@ -124,9 +136,9 @@ mae = np.mean(np.abs(predictions - test_y))
 mse = np.mean((predictions - test_y) ** 2)
 r2 = r2_score(test_y, predictions)
 
-print(f"Mean Squared Error ('Residual sum of squares'): {mse}")
-print(f"Mean Absolute Error: {mae}")
-print(f"R-squared: {r2}")
+print(f"Mean Squared Error ('Residual sum of squares'): {round(mse, 2)}")
+print(f"Mean Absolute Error: {round(mae, 2)}")
+print(f"R-squared: {round(r2, 2)}")
 
 
 # Q: Is the error worse with fuel consumption or engine size as the indpendent variable
