@@ -1,3 +1,17 @@
+''' 
+Project by -> Thomas Haskell
+
+Topic -> Simple Linear Regression
+Source -> IBM Machine Learning with Python Certification Course
+
+Below is a translation of a Jupyter notebook program to Python. Using IBM technologies, 
+this program is able to predict the CO2 emissions based on varying features of a car.
+
+The focus of this project is on simple linear regression modeling, where one independent
+variable is used to predict the dependent variable (CO2 Emissions).
+
+'''
+
 
 import matplotlib.pyplot as plt
 import pandas as pd
