@@ -80,13 +80,13 @@ train = cdf[msk]
 test = cdf[~msk]
 
 # visualizing the training data distribution
-plt.scatter(train.IND_VAR, train.CO2EMISSIONS,  color='blue')
+plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
 
 # visualizing the testing data distribution
-plt.scatter(test.IND_VAR, test.CO2EMISSIONS,  color='blue')
+plt.scatter(test.ENGINESIZE, test.CO2EMISSIONS,  color='blue')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
@@ -103,8 +103,8 @@ print("Coefficients: ", regrML.coef_)
 print("Intercept: ", regrML.intercept_)
 
 # plotting line of regression
-plt.scatter(train.IND_VAR, train.CO2EMISSIONS,  color='blue')
-plt.plot(train.IND_VAR, regrML.coef_[0][0]*train.IND_VAR + regrML.intercept_[0], '-r')
+plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
+plt.plot(train.ENGINESIZE, regrML.coef_[0][0]*train.ENGINESIZE + regrML.intercept_[0], '-r')
 plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
@@ -127,6 +127,9 @@ r2 = r2_score(test_y, predictions)
 print(f"Mean Squared Error ('Residual sum of squares'): {mse}")
 print(f"Mean Absolute Error: {mae}")
 print(f"R-squared: {r2}")
+
+
+# Q: Is the error worse with fuel consumption or engine size as the indpendent variable
 
 
 
