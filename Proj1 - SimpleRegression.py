@@ -25,6 +25,10 @@ import http.client
 import urllib.request
 import ssl
 
+global IND_VAR
+IND_VAR = "ENGINESIZE"
+
+# workaround for SSL certificate verification
 ssl._create_default_https_context = ssl._create_unverified_context
 
 def download(url, path, filename):
@@ -76,14 +80,14 @@ train = cdf[msk]
 test = cdf[~msk]
 
 # visualizing the training data distribution
-plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
-plt.xlabel("Engine size")
+plt.scatter(train.IND_VAR, train.CO2EMISSIONS,  color='blue')
+plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
 
 # visualizing the testing data distribution
-plt.scatter(test.ENGINESIZE, test.CO2EMISSIONS,  color='blue')
-plt.xlabel("Engine size")
+plt.scatter(test.IND_VAR, test.CO2EMISSIONS,  color='blue')
+plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
 
@@ -91,7 +95,7 @@ plt.show()
 from sklearn import linear_model
 
 regrML = linear_model.LinearRegression()
-train_x = np.asanarray(train[['ENGINESIZE']])
+train_x = np.asanarray(train[[IND_VAR]])
 train_y = np.asanarray(train[['CO2EMISSIONS']])
 regrML.fit(train_x, train_y)
 # printing the found optimal coefficients from line above
@@ -99,9 +103,9 @@ print("Coefficients: ", regrML.coef_)
 print("Intercept: ", regrML.intercept_)
 
 # plotting line of regression
-plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
-plt.plot(train.ENGINESIZE, regrML.coef_[0][0]*train.ENGINESIZE + regrML.intercept_[0], '-r')
-plt.xlabel("Engine size")
+plt.scatter(train.IND_VAR, train.CO2EMISSIONS,  color='blue')
+plt.plot(train.IND_VAR, regrML.coef_[0][0]*train.IND_VAR + regrML.intercept_[0], '-r')
+plt.xlabel(IND_VAR)
 plt.ylabel("Emission")
 plt.show()
 
@@ -112,7 +116,7 @@ plt.show()
 from sklearn.metrics import r2_score
 
 # Calculating predictions using test data
-test_x = np.asanyarray(test[['ENGINESIZE']])
+test_x = np.asanyarray(test[[IND_VAR]])
 test_y = np.asanyarray(test[['CO2EMISSIONS']])
 predictions = regrML.predict(test_x)    # is vector of dependent variable predictions
 
