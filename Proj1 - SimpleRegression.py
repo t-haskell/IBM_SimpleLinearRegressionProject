@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import pylab as pl
@@ -93,12 +94,14 @@ plt.show()
 
 ####################  Model Testing/Evaluation  ##################
 
-# using Mean Squared Error (MSE)
+# focusing on Mean Squared Error (MSE)
 from sklearn.metrics import r2_score
 
+# Calculating predictions using test data
 test_x = np.asanyarray(test[['ENGINESIZE']])
 test_y = np.asanyarray(test[['CO2EMISSIONS']])
-predictions = regrML.predict(test_x)    # uses line of best fit found earlier
+predictions = regrML.predict(test_x)    # is vector of dependent variable predictions
+
 mae = np.mean(np.abs(predictions - test_y))
 mse = np.mean((predictions - test_y) ** 2)
 r2 = r2_score(test_y, predictions)
