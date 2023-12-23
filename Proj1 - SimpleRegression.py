@@ -141,9 +141,9 @@ print(f"Mean Absolute Error: {round(mae, 2)}")
 print(f"R-squared: {round(r2, 2)}")
 
 
-# Q: Is the error worse with fuel consumption or engine size as the indpendent variable
+# Q: Is the error worse with fuel consumption or engine size as the indpendent variable?
 
-
+# A: Yes, the mean absolute error is lower with engine size as the indpendent variable
 
 
 
