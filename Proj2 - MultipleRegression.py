@@ -63,7 +63,7 @@ from sklearn import linear_model
 regr = linear_model.LinearRegression()
 x = np.asanyarray(train[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_COMB']])
 y = np.asanyarray(train[['CO2EMISSIONS']])
-regr.fit (x, y)
+regr.fit(x, y)
 # The coefficients
 print ('Coefficients: ', regr.coef_)
 
@@ -72,3 +72,14 @@ print ('Coefficients: ', regr.coef_)
 # For multiple linear regression, a good method to predict is to use Ordinary Least Squares (OLS),
 # which is a linear regression model that minimizes the sum of squared errors between the dependent
 # variable and the independent variable.
+
+
+y_hat= regr.predict(test[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_COMB']])
+x = np.asanyarray(test[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_COMB']])
+y = np.asanyarray(test[['CO2EMISSIONS']])
+mse =  np.mean((y_hat - y) ** 2)
+print(f"Mean Squared error(MSE):{round(mse, 2)}")
+varianceScore = regr.score(x, y)
+# Explained variance score: 1 is perfect prediction
+# Explained varience equation: 1 - [Var(y - yhat)/Var(y)], where variance is the square of std deviation
+print(f'Variance score: {round(varianceScore, 2)}')
