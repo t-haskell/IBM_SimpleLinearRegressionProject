@@ -44,3 +44,31 @@ plt.scatter(cdf.ENGINESIZE, cdf.CO2EMISSIONS,  color='blue')
 plt.xlabel("Engine size")
 plt.ylabel("Emission")
 plt.show()
+
+####################  Model Training  ##################
+
+# splitting traininng and testing datasets
+msk = np.random.rand(len(df)) < 0.8
+train = cdf[msk]
+test = cdf[~msk]
+
+# Train data distribution
+plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS,  color='blue')
+plt.xlabel("Engine size")
+plt.ylabel("Emission")
+plt.show()
+
+# Optimizing coefficients for line of best fit (Training)
+from sklearn import linear_model
+regr = linear_model.LinearRegression()
+x = np.asanyarray(train[['ENGINESIZE','CYLINDERS','FUELCONSUMPTION_COMB']])
+y = np.asanyarray(train[['CO2EMISSIONS']])
+regr.fit (x, y)
+# The coefficients
+print ('Coefficients: ', regr.coef_)
+
+####################  Model Testing/Evaluation  ##################
+
+# For multiple linear regression, a good method to predict is to use Ordinary Least Squares (OLS),
+# which is a linear regression model that minimizes the sum of squared errors between the dependent
+# variable and the independent variable.
