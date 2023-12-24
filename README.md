@@ -33,7 +33,8 @@ This project applies linear regression to predict CO2 emissions in vehicles base
 
 ## Visualizations
 
-[Insert an image comparing predicted vs actual CO2 emissions, color-coded by model, with annotations.]
+![image](https://github.com/t-haskell/IBM_SimpleLinearRegressionProject/assets/94083215/070f79f4-21c8-4a63-a874-3721bf8b42d0)
+
 
 ## Model Performance & Insights
 
